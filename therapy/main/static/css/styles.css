@@ -1,15 +1,12 @@
 
 .body1{
-	background-color: #16FFBD;
+	background-color: 	#DBEAD2;
 }
 
-.navbar{
-	background-color: #006dff !important;
-	color: : #12C998 !important;
-}
 
-.list-group-item1{
-	background-color: #006dff !important;
+.login{
+  border: 2px solid white;
+  border-radius: 30px;
 }
 
 
