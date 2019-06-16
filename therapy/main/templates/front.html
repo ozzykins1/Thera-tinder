@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="jumbotron">
+  <h1 class="display-4">Thera-tinder</h1>
+  <p class="lead">The best way to select a therapist for your needs</p>
+  <hr class="my-1">
+  <p>Come and see what thera-tinder can do for you. Super-selective methods to filter therapists in your area price range and speciality.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">Learn more</a>
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Sign up</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="{% url 'patient_signup' %}" class="btn btn-primary">let's go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Login</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary">login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

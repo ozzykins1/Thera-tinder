@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content2 %}
+<div class="row">
+	<div class="col-2">
+		<img src="">
+		<ul class="list-group">
+			<li class="list-group-item mt-3">{{request.user.first_name}} {{request.user.last_name}}</li>
+			<li class="list-group-item mt-3">Total Patients: {{appts.count}}</li>
+			<li class="list-group-item mt-3">Joined TheraTinder: {{request.user.date_joined}}</li>
+			<li class="list-group-item mt-3">Appointments this week: {{weekly_appts.count}}</li>
+		</ul>
+	</div>
+	<div class="col-5">
+		<h1>Chats</h1>
+		<ul>
+			{% for chat in chats %}
+				<a href="{% url 'doc_chat' chat.id %}" class="btn list-group-item"> {{chat.patient.user.first_name}} {{chat.patient.user.last_name}} <span class="badge badge-light">{{chat.get_unread_count_therapist}}</span></a>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="col-5">
+		<h1>Appointments</h1>
+		<ul>
+		{% for appointment in request.user.therapist.therapysession_set.all %}
+			{% if appointment.patient %}
+				<a class="btn btn-outline-dark" href="{% url 'view_session' appointment.id %}">Appointment with {{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}<br>{{appointment.datetime}}</a>
+			{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}

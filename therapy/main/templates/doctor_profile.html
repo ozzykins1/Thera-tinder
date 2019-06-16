@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{ therapist.user.first_name }} {{ therapist.user.last_name }}</h5>
+    <p class="card-text">{{ therapist.bio }}</p>
+    <a href="{% url 'chatroom' therapist.id %}" class="btn btn-primary">Start chat</a>
+    <a href="{% url 'book_session' therapist.id %}" class="btn btn-primary">Book Session</a>
+  </div>
+</div>
+
+
+
+{% endblock %}
+

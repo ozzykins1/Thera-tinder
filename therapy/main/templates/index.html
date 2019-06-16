@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content2 %}
+<div class="row">
+  <div class="col-2">
+    <img src="">
+    <ul class="list-group">
+      <li class="list-group-item mt-3">{{request.user.first_name}} {{request.user.last_name}}</li>
+      <li class="list-group-item mt-3">Next Appointment: 
+        {% if next_appt %}
+          {{next_appt.datetime}}
+        {% else %}
+          No next session, book one to get started!
+        {% endif %}
+      </li>
+      <li class="list-group-item mt-3">Joined TheraTinder: {{request.user.date_joined}}</li>
+      <li class="list-group-item mt-3">Lifetime Appointments: {{request.user.patient.therapysession_set.all.count}}</li>
+      <li class="list-group-item mt-3">Categories: <ul>{% for category in request.user.patient.categories.all %} <li>{{category.name}}</li>     
+      {% endfor %}</ul>
+      </li>
+    </ul>
+  </div>
+  <div class="col-5">
+    <h1>Therapists <span class="h6">Matching your categories in profile</span></h1>
+    <ul>
+      {% if therapists %}
+      {% for therapist in therapists %}
+        <div class="card list-group-item1 mt-3">
+          <div class="card-header">
+          <div class="card-header col-3">
+            <img src="{{ therapist.picture }}" width="60" height="60" alt="therapist"></div>
+            <div algin="left" class="col-9">
+            <a href="{% url 'doctor_profile' therapist.id%}" class="list-group-item list-group-item-action flex-column align-items-start active">{{ therapist.user.first_name }} {{ therapist.user.last_name }} specializes in {% for category in therapist.categories.all %} <p class="btn btn-info mt-3 ml-1">{{ category.name }}</p>{% endfor %}</a>
+            </div>
+          <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">{{ therapist.bio }}</p>
+            <a href="{% url 'doctor_profile' therapist.id%}" class="btn btn-warning">Read More</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h1>we couldnt find you any matching therapists, please update your settings on your profile page.</h1>
+    {% endif %}
+    </ul>
+  </div>
+  <div class="col-5">
+    <h1>Appointments</h1>
+    <ul>
+    {% for appointment in request.user.patient.therapysession_set.all %}
+        <a class="btn btn-outline-dark" href="{% url 'view_session' appointment.id %}">Appointment with Dr. {{appointment.therapist.user.first_name}} {{appointment.therapist.user.last_name}}<br>{{appointment.datetime}}</a>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %} 
+{% block content2 %}
+	<div class="container">
+		<div class="row">
+			{% for message in chat.message_set.all %}
+				{% if request.user == message.user %}
+					<div class='col-7'></div>
+					<div class="card col-5">
+						<div class="card-body d-flex justify-content-between">
+							<h6>You: {{message.content}}
+							</h6>
+							<cite class="ml-3">~{{message.timestamp | timesince}} ago</cite>
+						</div>
+					</div>
+				{% else %}
+					<div class="card col-5">
+						<div class="card-body  d-flex justify-content-between">
+							<h6 class="card-title">
+							<a href="#">{{message.user.username}}</a>: {{message.content}}
+							</h6>
+							<cite class="ml-1">~{{message.timestamp | timesince}} ago</cite>
+							
+						</div>
+					</div>
+					<div class="col-7"></div>
+				{% endif %}
+			{% endfor %}
+			
+		</div>
+	
+	<div class="row mt-5">
+	<form method="POST" class="form-inline">
+		{% csrf_token %}
+		<div class="form-group mx-sm-3 mb-2 mt-3">
+			<label for="content" class="sr-only">Message</label>
+			<input name="content" class="form-control" id="content" placeholder="Start typing...">
+		</div>
+		<button type="submit" class="btn btn-primary mb-2 mt-3">Send</button>
+	</form>
+	</div>
+{% endblock %}

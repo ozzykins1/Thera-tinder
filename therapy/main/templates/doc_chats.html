@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% if request.user.therapist %}
+		<ul class="list-group">
+	{% for chat in chats %}
+			<a href="{% url 'doc_chat' chat.id %}" class="btn btn-outline-dark mt-3 d-flex justify-content-between">Chat with: {{chat.patient.user.first_name}} {{chat.patient.user.last_name}}<span class="badge badge-light">{{chat.get_unread_count_therapist}}</span></a>
+
+	{% endfor %}
+		</ul>
+
+{% else %}
+<ul class="list-group">
+	{% for chat in chats %}
+			<a href="{% url 'chatroom' chat.therapist.id %}" class="btn btn-outline-dark mt-3 d-flex justify-content-between">Chat with: {{chat.therapist.user.first_name}} {{chat.therapist.user.last_name}}<span class="badge badge-light">{{chat.get_unread_count_patient}}</span></a>
+
+	{% endfor %}
+		</ul>
+{% endif %}
+{% endblock %}
+
+

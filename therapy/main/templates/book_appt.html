@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+
+
+<a href="{% url 'doctor_profile' therapist.id %}" class="btn btn-primary">Back to therapist profile</a>
+
+
+
+
+<a href="{% url 'index' %}" class="btn btn-primary">Book this appointment!</a>
+
+
+{% endblock %}

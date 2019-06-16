@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>Choose your desired appointment with {{therapist.user.first_name}} {{therapist.user.last_name}}</h3>
+	<ul class="list-group">
+	{% for appointment in therapist.therapysession_set.all %}
+  
+    {% if appointment.patient == None and appointment.datetime > now  %}
+    <a class="btn btn-outline-primary" href="{% url 'pick_session' appointment.id%}">{{appointment.datetime}}</a>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}

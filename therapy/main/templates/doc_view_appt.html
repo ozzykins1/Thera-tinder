@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content2 %}
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>Appointment with {{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}</h1>
+				{% if appointment.occured == None %}
+					{% if appointment.datetime > now %}
+						<h2 class="ml-5">Starting at: {{appointment.datetime}}</h2>
+					{% else %}
+						<h2 class="ml-5">Scheduled for: {{appointment.datetime}}</h2>
+						<h2 class="ml-5">Did your patient show up?</h2>
+						<a href="{% url 'mark_attendance' appointment.id 1 %}" class="btn btn-outline-success ml-5">Yes</a>
+						<a href="{% url 'mark_attendance' appointment.id 2 %}" class="btn btn-outline-danger ">No</a>
+					{% endif %}
+
+				{% elif appointment.occured == True %}
+					{% if appointment.sessionlog_set.all.count == 0 %}
+						<form method="POST">
+							{% csrf_token %}
+							{{form | crispy}}
+							<button class="btn btn-outline-primary" type="submit">Save</button>
+						</form>
+					{% else%}
+						<h2>Occured on: {{appointment.datetime}}</h2>
+						<h2>Patient Attended?: Yes</h2>
+					{% endif %}
+				{% elif appointment.occured == False %}
+					<h2 class="ml-5">Scheduled for: {{appointment.datetime}}</h2>
+					<h2 class="ml-5">Patient did not show up.</h2>
+					{% if chat%}
+					<a class="btn btn-primary ml-5" href="{% url 'doc_chat' chat.id %}">Chat</a>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-6">
+				<h3>Patient Details:</h3>
+				<ul class="list-group">
+					<li class="list-group-item">Name: {{appointment.patient.user.first_name}} {{appointment.patient.user.last_name}}</li>
+					<li class="list-group-item">Birthdate: {{appointment.patient.birthdate}}</li>
+					<li class="list-group-item">Gender: {{appointment.patient.gender}} </li>
+					<li class="list-group-item">Bio: {{appointment.patient.bio}}</li>
+				</ul>
+			</div>
+			<div class="col-6">
+				<h3>Histroy:</h3>
+				{% if session_logs.0 %}
+					{% for log in session_logs %}
+						<div class="card">
+							<div class="card-body">
+								<blockquote class="blockquote mb-0">
+									<p>{{log.therapist_notes}}</p>
+								<footer class="blockquote-footer"><cite title="Source Title">{{log.therapysession.datetime}}</cite></footer>
+							</blockquote>
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<h4>Seems like this will be your first meeting with this patient!</h4>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

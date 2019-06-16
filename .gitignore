@@ -1,0 +1,7 @@
+env/
+__pycache__/
+*.sqlite3
+*.db
+media/images/
+test.txt
+.DS_Store
